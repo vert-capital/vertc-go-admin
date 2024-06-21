@@ -10,14 +10,8 @@ import (
 
 var Tables map[string]entity.Table
 
-var DB *gorm.DB
-
 func AddTable(table entity.Table) {
 	Tables[table.Name] = table
-}
-
-func SetDB(db *gorm.DB) {
-	DB = db
 }
 
 func RunServer(db *gorm.DB, port string) {
