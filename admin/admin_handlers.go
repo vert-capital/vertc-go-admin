@@ -7,9 +7,14 @@ import (
 	"gorm.io/gorm"
 )
 
+var Tables map[string]Table
+
+func AddTable(table Table) {
+	Tables[table.Name] = table
+}
+
 type AdminHandlers struct {
 	UcTable IUseCaseTable
-	Tables  map[string]Table
 }
 
 func NewAdminHandler(ucTable IUseCaseTable) *AdminHandlers {
@@ -20,7 +25,7 @@ func NewAdminHandler(ucTable IUseCaseTable) *AdminHandlers {
 
 func (ah *AdminHandlers) ListTables(c *gin.Context) {
 	data := ResponseListTables{}
-	for _, table := range ah.Tables {
+	for _, table := range Tables {
 		data[table.Category] = table
 	}
 	jsonResponse(c, 200, data)
@@ -29,7 +34,7 @@ func (ah *AdminHandlers) ListTables(c *gin.Context) {
 
 func (ah *AdminHandlers) GetInfoTable(c *gin.Context) {
 	tableName := c.Param("table_name")
-	table := ah.Tables[tableName]
+	table := Tables[tableName]
 	if table.Name == "" {
 		handleError(c, nil)
 		return
@@ -39,7 +44,7 @@ func (ah *AdminHandlers) GetInfoTable(c *gin.Context) {
 
 func (ah *AdminHandlers) ListTable(c *gin.Context) {
 	tableName := c.Param("table_name")
-	table := ah.Tables[tableName]
+	table := Tables[tableName]
 	if table.Name == "" {
 		handleError(c, nil)
 		return
@@ -99,7 +104,7 @@ func (ah *AdminHandlers) ListTable(c *gin.Context) {
 
 func (ah *AdminHandlers) GetTable(c *gin.Context) {
 	tableName := c.Param("table_name")
-	table := ah.Tables[tableName]
+	table := Tables[tableName]
 	if table.Name == "" {
 		handleError(c, nil)
 		return
@@ -122,7 +127,7 @@ func (ah *AdminHandlers) GetTable(c *gin.Context) {
 
 func (ah *AdminHandlers) CreateTable(c *gin.Context) {
 	tableName := c.Param("table_name")
-	table := ah.Tables[tableName]
+	table := Tables[tableName]
 	if table.Name == "" {
 		handleError(c, nil)
 		return
@@ -144,7 +149,7 @@ func (ah *AdminHandlers) CreateTable(c *gin.Context) {
 
 func (ah *AdminHandlers) UpdateTable(c *gin.Context) {
 	tableName := c.Param("table_name")
-	table := ah.Tables[tableName]
+	table := Tables[tableName]
 	if table.Name == "" {
 		handleError(c, nil)
 		return
@@ -176,7 +181,7 @@ func (ah *AdminHandlers) DeleteTable(c *gin.Context) {
 		Ids []int `json:"ids"`
 	}
 	tableName := c.Param("table_name")
-	table := ah.Tables[tableName]
+	table := Tables[tableName]
 	if table.Name == "" {
 		handleError(c, nil)
 		return
