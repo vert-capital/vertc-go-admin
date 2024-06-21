@@ -1,13 +1,16 @@
 package vertc_go_admin
 
 type Usuario struct {
-	ID           int     `json:"id"`
-	PrimeiroNome string  `json:"first_name"       validate:"required,min=3,max=120"`
-	UltimoNome   string  `json:"last_name"`
-	Area         uint    `json:"area"`
-	Email        string  `json:"email"      validate:"required,email"`
-	Imagem       *string `json:"image"`
-	IsAdmin      bool    `json:"is_superuser" gorm:"default:false"`
+	ID            int     `json:"id"`
+	PrimeiroNome  *string `json:"first_name"       validate:"required,min=3,max=120"`
+	UltimoNome    *string `json:"last_name"`
+	Area          *uint   `json:"area"`
+	Email         *string `json:"email"      validate:"required,email"`
+	Imagem        *string `json:"image"`
+	Tipo          *string `json:"user_type"`
+	PodeMudarTipo *bool   `json:"can_change_user_type" gorm:"default:false"`
+	Grupos        []Grupo `json:"groups" gorm:"many2many:usuarios_grupos;" on_delete:"cascade"`
+	IsAdmin       *bool   `json:"is_superuser" gorm:"default:false"`
 }
 
 type UsuarioJson struct {
@@ -21,7 +24,9 @@ type UsuarioJson struct {
 }
 
 type TipoUsuarioKafka struct {
-	Email string `json:"email"`
+	Email         string `json:"email"`
+	Tipo          string `json:"user_type"`
+	PodeMudarTipo bool   `json:"can_change_user_type"`
 }
 
 type UsuarioFiltros struct {
@@ -30,17 +35,18 @@ type UsuarioFiltros struct {
 }
 
 func (Usuario) TableName() string {
-	return "vertadmin_usuarios"
+	return "usuarios"
 }
 
 func (u *Usuario) RespostaJson() UsuarioJson {
 	return UsuarioJson{
 		ID:           u.ID,
-		PrimeiroNome: u.PrimeiroNome,
-		UltimoNome:   u.UltimoNome,
-		Area:         u.Area,
-		Email:        u.Email,
+		PrimeiroNome: *u.PrimeiroNome,
+		UltimoNome:   *u.UltimoNome,
+		Area:         *u.Area,
+		Email:        *u.Email,
 		Imagem:       u.Imagem,
+		Grupos:       u.Grupos,
 	}
 }
 
@@ -64,5 +70,5 @@ type AreaUsuario struct {
 }
 
 func (AreaUsuario) TableName() string {
-	return "vertadmin_areas"
+	return "areas"
 }

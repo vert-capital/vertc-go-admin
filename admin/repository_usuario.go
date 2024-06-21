@@ -66,7 +66,7 @@ func (u *RepositoryUsuario) CreateOrUpdate(usuario *Usuario) error {
 
 func (u *RepositoryUsuario) UpdateUsuario(usuario *Usuario) error {
 
-	_, err := u.GetByEMail(usuario.Email)
+	_, err := u.GetByEMail(*usuario.Email)
 
 	if err != nil {
 		return err
@@ -77,7 +77,7 @@ func (u *RepositoryUsuario) UpdateUsuario(usuario *Usuario) error {
 
 func (u *RepositoryUsuario) DeleteUsuario(usuario *Usuario) error {
 
-	_, err := u.GetByEMail(usuario.Email)
+	_, err := u.GetByEMail(*usuario.Email)
 
 	if err != nil {
 		return err

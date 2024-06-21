@@ -77,7 +77,7 @@ func (u *UseCaseUsuario) Create(usuario *Usuario) error {
 		return err
 	}
 
-	_, err = u.repo.GetByEMail(usuario.Email)
+	_, err = u.repo.GetByEMail(*usuario.Email)
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return u.repo.CreateUsuario(usuario)
@@ -123,8 +123,8 @@ func (u *UseCaseUsuario) UpdateUsuarioByEmail(usuario *TipoUsuarioKafka) error {
 func JWTTokenGenerator(u Usuario) (signedToken string, signedRefreshToken string, err error) {
 	claims := DetalhesLogin{
 		ID:    int(u.ID),
-		Name:  u.PrimeiroNome + " " + u.UltimoNome,
-		Email: u.Email,
+		Name:  *u.PrimeiroNome + " " + *u.UltimoNome,
+		Email: *u.Email,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Hour * 24 * 7 * 365).Unix(),
 		},

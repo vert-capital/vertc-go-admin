@@ -18,7 +18,7 @@ func AuthMiddleware(usecase IUsecaseUsuario) gin.HandlerFunc {
 		usuario, err := usecase.GetUsuarioByToken(bearerToken)
 
 		// check if token is valid
-		if err == nil && usuario.IsAdmin {
+		if err == nil && *usuario.IsAdmin {
 
 			// set usuario to context
 			c.Set("usuario", *usuario)
