@@ -10,7 +10,7 @@ func AddTable(table Table) {
 	Tables[table.Name] = table
 }
 
-func RunServer(db *gorm.DB, port string) {
+func RunServer(db *gorm.DB) {
 	Migrations(db)
 	go StartKafka(db)
 }
