@@ -1,7 +1,7 @@
-package usecase_grupo
+package vertc_go_admin
 
 import (
-	"github.com/vert-capital/vertc-go-admin/entity"
+	entity "github.com/vert-capital/vertc-go-admin/entity"
 )
 
 type UseCaseGrupo struct {

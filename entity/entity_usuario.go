@@ -1,4 +1,4 @@
-package entity
+package vertc_go_admin
 
 type Usuario struct {
 	ID            int     `json:"id"`

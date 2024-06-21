@@ -1,8 +1,8 @@
-package usecases_tables
+package vertc_go_admin
 
 import (
 	api "github.com/vert-capital/vertc-go-admin/api/entity"
-	"github.com/vert-capital/vertc-go-admin/entity"
+	entity "github.com/vert-capital/vertc-go-admin/entity"
 )
 
 type UseCaseTable struct {

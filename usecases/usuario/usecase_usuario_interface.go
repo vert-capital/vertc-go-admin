@@ -1,6 +1,6 @@
-package usecase_usuario
+package vertc_go_admin
 
-import "github.com/vert-capital/vertc-go-admin/entity"
+import entity "github.com/vert-capital/vertc-go-admin/entity"
 
 //go:generate mockgen -destination=../../mocks/mock_usecase_repository_usuario.go -package=mocks app/usecase/usuario IRepositoryUsuario
 type IRepositoryUsuario interface {

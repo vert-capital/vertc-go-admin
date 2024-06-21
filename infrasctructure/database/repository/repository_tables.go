@@ -1,8 +1,8 @@
-package repository
+package vertc_go_admin
 
 import (
 	api "github.com/vert-capital/vertc-go-admin/api/entity"
-	"github.com/vert-capital/vertc-go-admin/entity"
+	entity "github.com/vert-capital/vertc-go-admin/entity"
 	"gorm.io/gorm"
 )
 
@@ -18,7 +18,7 @@ func (r RepositoryTable) List(table entity.Table, filters api.Filters) (response
 	query := r.DB.Table(table.Name)
 	if filters.Search != nil {
 		for _, field := range table.SearchFields {
-			query.Or(*field+" LIKE ?", "%"+*filters.Search+"%")
+			query.Or(field+" LIKE ?", "%"+*filters.Search+"%")
 		}
 	}
 	if filters.FilterFields != nil {

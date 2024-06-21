@@ -1,4 +1,4 @@
-package usecase_usuario
+package vertc_go_admin
 
 import (
 	"errors"
@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt"
-	"github.com/vert-capital/vertc-go-admin/entity"
+	entity "github.com/vert-capital/vertc-go-admin/entity"
 	"gorm.io/gorm"
 )
 

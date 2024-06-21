@@ -1,4 +1,4 @@
-package api
+package vertc_go_admin
 
 import entity "github.com/vert-capital/vertc-go-admin/entity"
 

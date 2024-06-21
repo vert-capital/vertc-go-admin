@@ -1,4 +1,4 @@
-package entity
+package vertc_go_admin
 
 type Fields map[string]interface{}
 

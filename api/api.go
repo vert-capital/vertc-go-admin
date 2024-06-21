@@ -1,13 +1,13 @@
-package api
+package vertc_go_admin
 
 import (
 	"log"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"github.com/vert-capital/vertc-go-admin/api/handlers"
-	"github.com/vert-capital/vertc-go-admin/api/middleware"
-	"github.com/vert-capital/vertc-go-admin/infrasctructure/database/repository"
+	handlers "github.com/vert-capital/vertc-go-admin/api/handlers"
+	middleware "github.com/vert-capital/vertc-go-admin/api/middleware"
+	repository "github.com/vert-capital/vertc-go-admin/infrasctructure/database/repository"
 	usecase_usuario "github.com/vert-capital/vertc-go-admin/usecases/usuario"
 	"gorm.io/gorm"
 )

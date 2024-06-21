@@ -1,12 +1,12 @@
-package kafka
+package vertc_go_admin
 
 import (
 	"encoding/json"
 	"log"
 
 	"github.com/segmentio/kafka-go"
-	"github.com/vert-capital/vertc-go-admin/entity"
-	"github.com/vert-capital/vertc-go-admin/infrasctructure/database/repository"
+	entity "github.com/vert-capital/vertc-go-admin/entity"
+	repository "github.com/vert-capital/vertc-go-admin/infrasctructure/database/repository"
 	kafka_handlers "github.com/vert-capital/vertc-go-admin/infrasctructure/kafka/handlers"
 	usecase_grupo "github.com/vert-capital/vertc-go-admin/usecases/grupo"
 	usecase_usuario "github.com/vert-capital/vertc-go-admin/usecases/usuario"

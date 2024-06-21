@@ -1,10 +1,10 @@
-package admin
+package vertc_go_admin
 
 import (
-	"github.com/vert-capital/vertc-go-admin/api"
-	"github.com/vert-capital/vertc-go-admin/entity"
+	api "github.com/vert-capital/vertc-go-admin/api"
+	entity "github.com/vert-capital/vertc-go-admin/entity"
 	postgres "github.com/vert-capital/vertc-go-admin/infrasctructure/database"
-	"github.com/vert-capital/vertc-go-admin/infrasctructure/kafka"
+	kafka "github.com/vert-capital/vertc-go-admin/infrasctructure/kafka"
 	"gorm.io/gorm"
 )
 

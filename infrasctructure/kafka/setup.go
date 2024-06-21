@@ -1,4 +1,4 @@
-package kafka
+package vertc_go_admin
 
 import (
 	"context"

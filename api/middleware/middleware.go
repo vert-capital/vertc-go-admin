@@ -1,4 +1,4 @@
-package middleware
+package vertc_go_admin
 
 import (
 	"net/http"

@@ -1,4 +1,4 @@
-package entity
+package vertc_go_admin
 
 import (
 	"log"

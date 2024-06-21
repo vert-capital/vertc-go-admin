@@ -1,12 +1,12 @@
-package handlers
+package vertc_go_admin
 
 import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
 	api "github.com/vert-capital/vertc-go-admin/api/entity"
-	"github.com/vert-capital/vertc-go-admin/entity"
-	"github.com/vert-capital/vertc-go-admin/infrasctructure/database/repository"
+	entity "github.com/vert-capital/vertc-go-admin/entity"
+	repository "github.com/vert-capital/vertc-go-admin/infrasctructure/database/repository"
 	usecases_tables "github.com/vert-capital/vertc-go-admin/usecases/usecase_tables"
 	"gorm.io/gorm"
 )

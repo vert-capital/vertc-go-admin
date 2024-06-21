@@ -1,11 +1,11 @@
-package handlers
+package vertc_go_admin
 
 import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	api "github.com/vert-capital/vertc-go-admin/api/entity"
-	"github.com/vert-capital/vertc-go-admin/entity"
+	entity "github.com/vert-capital/vertc-go-admin/entity"
 )
 
 func handleError(c *gin.Context, err error) bool {
