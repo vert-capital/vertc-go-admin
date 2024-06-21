@@ -24,7 +24,7 @@ func CreateUsuario(m kafka.Message, usecaseUsuario IUsecaseUsuario) error {
 		return err
 	}
 
-	log.Printf("Usuario %s recebido via kafka", usuario.Email)
+	log.Printf("Usuario %s recebido via kafka", *usuario.Email)
 	return usecaseUsuario.CreateOrUpdateUsuario(&usuario)
 }
 
