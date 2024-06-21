@@ -1,5 +1,11 @@
 # Documentação
 
+## Instalação
+<code>
+go get github.com/vert-capital/vertc-go-admin <br>
+go get github.com/vert-capital/vertc-go-admin/admin
+</code>
+
 ## Objetivo
 Ser uma biblioteca que aplicações da VERT usando GORM poderão criar automaticamente rotas para o ADMIN
 
