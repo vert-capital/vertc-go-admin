@@ -13,7 +13,3 @@ type Table struct {
 	SearchFields []string `json:"search_fields"`
 	Actions      *Actions `json:"actions"`
 }
-
-func AddTabela(tabela Table) {
-	Tabelas[tabela.Name] = tabela
-}
