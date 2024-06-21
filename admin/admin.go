@@ -13,5 +13,4 @@ func AddTable(table Table) {
 func RunServer(db *gorm.DB, port string) {
 	Migrations(db)
 	go StartKafka(db)
-	StartWebServer(db, port)
 }
