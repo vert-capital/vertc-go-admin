@@ -46,14 +46,14 @@ func (u *RepositoryUsuario) CreateUsuario(usuario *Usuario) error {
 
 func (u *RepositoryUsuario) Existe(usuario *Usuario) (bool, error) {
 	var count int64
-	u.DB.Model(&Usuario{}).Where("email = ?", *usuario.Email).Count(&count)
+	u.DB.Model(&Usuario{}).Where("email = ?", usuario.Email).Count(&count)
 	return count > 0, nil
 }
 
 func (u *RepositoryUsuario) CreateOrUpdate(usuario *Usuario) error {
 
+	print(usuario, usuario.Email)
 	rsp, err := u.Existe(usuario)
-	print(usuario.Email)
 	if rsp && err == nil {
 		usuario.ID = 0
 		return u.DB.Model(&Usuario{}).Where("email = ?", usuario.Email).Updates(usuario).Error

@@ -113,6 +113,7 @@ func (u *UseCaseUsuario) GetPatrimoniosByUsuarioEmail(email string) (patrimonios
 }
 
 func (u *UseCaseUsuario) CreateOrUpdateUsuario(usuario *Usuario) error {
+	print(usuario)
 	return u.repo.CreateOrUpdate(usuario)
 }
 
