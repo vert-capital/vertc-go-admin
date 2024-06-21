@@ -12,33 +12,6 @@ func NewRepositoryTable(db *gorm.DB) *RepositoryTable {
 	return &RepositoryTable{DB: db}
 }
 
-func (r RepositoryTable) ListTables() (tables []Table, err error) {
-	err = r.DB.Table("vertadmin_tabelas").Find(&tables).Error
-	if err != nil {
-		return nil, err
-	}
-	return tables, nil
-}
-
-func (r RepositoryTable) GetTableByName(name string) (table Table, err error) {
-	err = r.DB.Table("vertadmin_tabelas").Where("name = ?", name).First(&table).Error
-	if err != nil {
-		return Table{}, err
-	}
-	return table, nil
-}
-
-func (r RepositoryTable) CreateTableIfNotExists(table Table) (err error) {
-	err = r.DB.Table("vertadmin_tabelas").Where("name = ?", table.Name).First(&Table{}).Error
-	if err != nil {
-		err = r.DB.Table("vertadmin_tabelas").Create(&table).Error
-		if err != nil {
-			return err
-		}
-	}
-	return nil
-}
-
 func (r RepositoryTable) List(table Table, filters Filters) (response ResponseList, err error) {
 	query := r.DB.Table(table.Name)
 	if filters.Search != nil {

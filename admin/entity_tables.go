@@ -4,6 +4,8 @@ type Fields map[string]interface{}
 
 type Actions map[string](func() error)
 
+type Tables map[string]Table
+
 type Table struct {
 	Name         string   `json:"name"`
 	Category     string   `json:"category"`
@@ -12,6 +14,6 @@ type Table struct {
 	Actions      *Actions `json:"actions"`
 }
 
-func (Table) TableName() string {
-	return "vertadmin_tabelas"
+func AddTabela(tabela Table) {
+	Tabelas[tabela.Name] = tabela
 }

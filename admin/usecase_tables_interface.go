@@ -6,9 +6,6 @@ type IRepositoryTable interface {
 	Create(table Table, fields Fields) (response ResponseCreateUpdateDelete, err error)
 	Update(table Table, fields Fields, id int) (response ResponseCreateUpdateDelete, err error)
 	Delete(table Table, ids []int) (response ResponseCreateUpdateDelete, err error)
-	ListTables() (response []Table, err error)
-	GetTableByName(name string) (table Table, err error)
-	CreateTableIfNotExists(table Table) (err error)
 }
 
 type IUseCaseTable interface {
@@ -17,7 +14,4 @@ type IUseCaseTable interface {
 	Create(table Table, fields Fields) (response ResponseCreateUpdateDelete, err error)
 	Update(table Table, fields Fields, id int) (response ResponseCreateUpdateDelete, err error)
 	Delete(table Table, ids []int) (response ResponseCreateUpdateDelete, err error)
-	ListTables() (response []Table, err error)
-	GetTableByName(name string) (table Table, err error)
-	CreateTableIfNotExists(table Table) (err error)
 }
