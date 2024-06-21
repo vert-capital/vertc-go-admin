@@ -3,7 +3,6 @@ package vertc_go_admin
 import (
 	"log"
 
-	entity "github.com/vert-capital/vertc-go-admin/entity"
 	"gorm.io/gorm"
 )
 
@@ -15,17 +14,17 @@ func NewGrupoPostgres(DB *gorm.DB) *RepositoryGrupo {
 	return &RepositoryGrupo{DB: DB}
 }
 
-func (u *RepositoryGrupo) GetByID(id int) (grupo *entity.Grupo, err error) {
+func (u *RepositoryGrupo) GetByID(id int) (grupo *Grupo, err error) {
 	u.DB.First(&grupo, id)
 
 	return grupo, err
 }
 
-func (u *RepositoryGrupo) CreateGrupo(grupo *entity.Grupo) error {
+func (u *RepositoryGrupo) CreateGrupo(grupo *Grupo) error {
 	return u.DB.Create(&grupo).Error
 }
 
-func (u *RepositoryGrupo) CreateGrupoWithUsuarios(grupo *entity.Grupo) error {
+func (u *RepositoryGrupo) CreateGrupoWithUsuarios(grupo *Grupo) error {
 	err := u.CreateGrupo(grupo)
 	if err != nil {
 		return err
@@ -33,7 +32,7 @@ func (u *RepositoryGrupo) CreateGrupoWithUsuarios(grupo *entity.Grupo) error {
 
 	// Save the usuario-grupo relationships
 	for _, usuarioID := range grupo.Usuarios {
-		usuarioGrupo := &entity.UsuarioGrupo{
+		usuarioGrupo := &UsuarioGrupo{
 			UsuarioID: usuarioID,
 			GrupoID:   uint(grupo.ID),
 		}
@@ -45,8 +44,8 @@ func (u *RepositoryGrupo) CreateGrupoWithUsuarios(grupo *entity.Grupo) error {
 	return nil
 }
 
-func (u *RepositoryGrupo) GetGrupoByIDOPS(idOps int) (*entity.Grupo, error) {
-	existingGrupo := &entity.Grupo{}
+func (u *RepositoryGrupo) GetGrupoByIDOPS(idOps int) (*Grupo, error) {
+	existingGrupo := &Grupo{}
 
 	if err := u.DB.Table("grupos").Where("id_ops = ?", idOps).First(existingGrupo).Error; err != nil {
 		return nil, err
@@ -54,7 +53,7 @@ func (u *RepositoryGrupo) GetGrupoByIDOPS(idOps int) (*entity.Grupo, error) {
 	return existingGrupo, nil
 }
 
-func (u *RepositoryGrupo) UpdateGrupo(grupo *entity.Grupo) (*entity.Grupo, error) {
+func (u *RepositoryGrupo) UpdateGrupo(grupo *Grupo) (*Grupo, error) {
 	existingGrupo, err := u.GetGrupoByIDOPS(grupo.IDOPS)
 	if err != nil {
 		return nil, err
@@ -63,7 +62,7 @@ func (u *RepositoryGrupo) UpdateGrupo(grupo *entity.Grupo) (*entity.Grupo, error
 	existingGrupo.Nome = grupo.Nome
 	existingGrupo.IDOPS = grupo.IDOPS
 
-	err = u.DB.Where("grupo_id = ?", existingGrupo.ID).Delete(&entity.UsuarioGrupo{}).Error
+	err = u.DB.Where("grupo_id = ?", existingGrupo.ID).Delete(&UsuarioGrupo{}).Error
 	if err != nil {
 		log.Println("Error update usuario_grupo: ", err)
 	}
@@ -75,20 +74,20 @@ func (u *RepositoryGrupo) UpdateGrupo(grupo *entity.Grupo) (*entity.Grupo, error
 	return existingGrupo, nil
 }
 
-func (u *RepositoryGrupo) UpdateGrupoWithUsuarios(grupo *entity.Grupo) error {
+func (u *RepositoryGrupo) UpdateGrupoWithUsuarios(grupo *Grupo) error {
 	existingGrupo, err := u.UpdateGrupo(grupo)
 
 	if err != nil {
 		return err
 	}
 
-	err = u.DB.Where("grupo_id = ?", existingGrupo.ID).Delete(&entity.UsuarioGrupo{}).Error
+	err = u.DB.Where("grupo_id = ?", existingGrupo.ID).Delete(&UsuarioGrupo{}).Error
 	if err != nil {
 		log.Println("Error update usuarios_grupo: ", err)
 	}
 
 	for _, usuarioID := range grupo.Usuarios {
-		usuarioGrupo := &entity.UsuarioGrupo{
+		usuarioGrupo := &UsuarioGrupo{
 			UsuarioID: usuarioID,
 			GrupoID:   uint(existingGrupo.ID),
 		}
@@ -100,14 +99,14 @@ func (u *RepositoryGrupo) UpdateGrupoWithUsuarios(grupo *entity.Grupo) error {
 	return nil
 }
 
-func (u *RepositoryGrupo) DeleteGrupo(grupo *entity.GrupoJson) error {
+func (u *RepositoryGrupo) DeleteGrupo(grupo *GrupoJson) error {
 
 	existingGrupo, err := u.GetGrupoByIDOPS(grupo.IDOPS)
 	if err != nil {
 		return err
 	}
 
-	err = u.DB.Where("grupo_id = ?", existingGrupo.ID).Delete(&entity.UsuarioGrupo{}).Error
+	err = u.DB.Where("grupo_id = ?", existingGrupo.ID).Delete(&UsuarioGrupo{}).Error
 	if err != nil {
 		log.Println("Error deleting usuario_grupo: ", err)
 	}
@@ -115,6 +114,6 @@ func (u *RepositoryGrupo) DeleteGrupo(grupo *entity.GrupoJson) error {
 	return u.DB.Delete(existingGrupo).Error
 }
 
-func (u *RepositoryGrupo) GetGrupos() (grupos []entity.Grupo, err error) {
+func (u *RepositoryGrupo) GetGrupos() (grupos []Grupo, err error) {
 	return grupos, u.DB.Find(&grupos).Error
 }

@@ -6,12 +6,11 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
-	usecase_usuario "github.com/vert-capital/vertc-go-admin/usecases/usuario"
 
 	"gopkg.in/cas.v2"
 )
 
-func AuthMiddleware(usecase usecase_usuario.IUsecaseUsuario) gin.HandlerFunc {
+func AuthMiddleware(usecase IUsecaseUsuario) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// get bearer token from header
 		bearerToken := c.Request.Header.Get("Authorization")

@@ -1,8 +1,6 @@
 package vertc_go_admin
 
 import (
-	api "github.com/vert-capital/vertc-go-admin/api/entity"
-	entity "github.com/vert-capital/vertc-go-admin/entity"
 	"gorm.io/gorm"
 )
 
@@ -14,7 +12,7 @@ func NewRepositoryTable(db *gorm.DB) *RepositoryTable {
 	return &RepositoryTable{DB: db}
 }
 
-func (r RepositoryTable) List(table entity.Table, filters api.Filters) (response api.ResponseList, err error) {
+func (r RepositoryTable) List(table Table, filters Filters) (response ResponseList, err error) {
 	query := r.DB.Table(table.Name)
 	if filters.Search != nil {
 		for _, field := range table.SearchFields {
@@ -43,7 +41,7 @@ func (r RepositoryTable) List(table entity.Table, filters api.Filters) (response
 	cpquery := query
 	err = query.Find(&response.Data).Error
 	if err != nil {
-		return api.ResponseList{
+		return ResponseList{
 			Page:       0,
 			PageSize:   0,
 			TotalPages: 0,
@@ -61,7 +59,7 @@ func (r RepositoryTable) List(table entity.Table, filters api.Filters) (response
 	cpquery.Offset((filters.Page - 1) * filters.PageSize).Limit(filters.PageSize)
 	err = cpquery.Find(&response.Data).Error
 	if err != nil {
-		return api.ResponseList{
+		return ResponseList{
 			Page:       0,
 			PageSize:   0,
 			TotalPages: 0,
@@ -73,7 +71,7 @@ func (r RepositoryTable) List(table entity.Table, filters api.Filters) (response
 	return response, nil
 }
 
-func (r RepositoryTable) Get(table entity.Table, id int) (response entity.Fields, err error) {
+func (r RepositoryTable) Get(table Table, id int) (response Fields, err error) {
 	err = r.DB.Table(table.Name).Where("id = ?", id).First(&response).Error
 	if err != nil {
 		return nil, err
@@ -81,38 +79,38 @@ func (r RepositoryTable) Get(table entity.Table, id int) (response entity.Fields
 	return response, nil
 }
 
-func (r RepositoryTable) Create(table entity.Table, fields entity.Fields) (response api.ResponseCreateUpdateDelete, err error) {
+func (r RepositoryTable) Create(table Table, fields Fields) (response ResponseCreateUpdateDelete, err error) {
 	err = r.DB.Table(table.Name).Create(fields).Error
 	if err != nil {
-		return api.ResponseCreateUpdateDelete{
+		return ResponseCreateUpdateDelete{
 			Message: "Error creating record",
 		}, err
 	}
-	return api.ResponseCreateUpdateDelete{
+	return ResponseCreateUpdateDelete{
 		Message: "Record created successfully",
 	}, nil
 }
 
-func (r RepositoryTable) Update(table entity.Table, fields entity.Fields, id int) (response api.ResponseCreateUpdateDelete, err error) {
+func (r RepositoryTable) Update(table Table, fields Fields, id int) (response ResponseCreateUpdateDelete, err error) {
 	err = r.DB.Table(table.Name).Where("id = ?", id).Updates(fields).Error
 	if err != nil {
-		return api.ResponseCreateUpdateDelete{
+		return ResponseCreateUpdateDelete{
 			Message: "Error updating record",
 		}, err
 	}
-	return api.ResponseCreateUpdateDelete{
+	return ResponseCreateUpdateDelete{
 		Message: "Record updated successfully",
 	}, nil
 }
 
-func (r RepositoryTable) Delete(table entity.Table, ids []int) (response api.ResponseCreateUpdateDelete, err error) {
+func (r RepositoryTable) Delete(table Table, ids []int) (response ResponseCreateUpdateDelete, err error) {
 	err = r.DB.Table(table.Name).Where("id IN (?)", ids).Delete(nil).Error
 	if err != nil {
-		return api.ResponseCreateUpdateDelete{
+		return ResponseCreateUpdateDelete{
 			Message: "Error deleting record",
 		}, err
 	}
-	return api.ResponseCreateUpdateDelete{
+	return ResponseCreateUpdateDelete{
 		Message: "Record deleted successfully",
 	}, nil
 }

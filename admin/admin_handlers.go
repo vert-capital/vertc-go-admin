@@ -4,26 +4,22 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	api "github.com/vert-capital/vertc-go-admin/api/entity"
-	entity "github.com/vert-capital/vertc-go-admin/entity"
-	repository "github.com/vert-capital/vertc-go-admin/infrasctructure/database/repository"
-	usecases_tables "github.com/vert-capital/vertc-go-admin/usecases/usecase_tables"
 	"gorm.io/gorm"
 )
 
 type AdminHandlers struct {
-	UcTable usecases_tables.IUseCaseTable
-	Tables  map[string]entity.Table
+	UcTable IUseCaseTable
+	Tables  map[string]Table
 }
 
-func NewAdminHandler(ucTable usecases_tables.IUseCaseTable) *AdminHandlers {
+func NewAdminHandler(ucTable IUseCaseTable) *AdminHandlers {
 	return &AdminHandlers{
 		UcTable: ucTable,
 	}
 }
 
 func (ah *AdminHandlers) ListTables(c *gin.Context) {
-	data := api.ResponseListTables{}
+	data := ResponseListTables{}
 	for _, table := range ah.Tables {
 		data[table.Category] = table
 	}
@@ -48,7 +44,7 @@ func (ah *AdminHandlers) ListTable(c *gin.Context) {
 		handleError(c, nil)
 		return
 	}
-	filters := api.Filters{}
+	filters := Filters{}
 	search, exists := c.GetQuery("search")
 	if exists {
 		filters.Search = &search
@@ -71,10 +67,10 @@ func (ah *AdminHandlers) ListTable(c *gin.Context) {
 		}
 		filters.PageSize = int(pageSize)
 	}
-	fields := []api.FilterField{}
+	fields := []FilterField{}
 	for key, value := range c.Request.URL.Query() {
 		if key != "search" && key != "page" && key != "page_size" {
-			fields = append(fields, api.FilterField{
+			fields = append(fields, FilterField{
 				Field: key,
 				Value: value[0],
 			})
@@ -200,8 +196,8 @@ func (ah *AdminHandlers) DeleteTable(c *gin.Context) {
 }
 
 func MountTableHandlers(gin *gin.RouterGroup, db *gorm.DB) {
-	repo := repository.NewRepositoryTable(db)
-	uc := usecases_tables.NewUseCaseTable(repo)
+	repo := NewRepositoryTable(db)
+	uc := NewUseCaseTable(repo)
 	ah := NewAdminHandler(uc)
 	gin.GET("/tables", ah.ListTables)
 	gin.GET("/tables/:table_name", ah.GetInfoTable)

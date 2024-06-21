@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt"
-	entity "github.com/vert-capital/vertc-go-admin/entity"
 	"gorm.io/gorm"
 )
 
@@ -25,7 +24,7 @@ func NewService(repository IRepositoryUsuario) *UseCaseUsuario {
 	return &UseCaseUsuario{repo: repository}
 }
 
-func (u *UseCaseUsuario) GetUsuarioByToken(token string) (*entity.Usuario, error) {
+func (u *UseCaseUsuario) GetUsuarioByToken(token string) (*Usuario, error) {
 	claims, err := ValidateToken(token)
 
 	if err != nil {
@@ -71,7 +70,7 @@ func ValidateToken(tokenString string) (claims *DetalhesLogin, err error) {
 
 }
 
-func (u *UseCaseUsuario) Create(usuario *entity.Usuario) error {
+func (u *UseCaseUsuario) Create(usuario *Usuario) error {
 	err := usuario.Validate()
 
 	if err != nil {
@@ -87,7 +86,7 @@ func (u *UseCaseUsuario) Create(usuario *entity.Usuario) error {
 	return err
 }
 
-func (u *UseCaseUsuario) Update(usuario *entity.Usuario) error {
+func (u *UseCaseUsuario) Update(usuario *Usuario) error {
 	err := usuario.Validate()
 
 	if err != nil {
@@ -97,15 +96,15 @@ func (u *UseCaseUsuario) Update(usuario *entity.Usuario) error {
 	return u.repo.UpdateUsuario(usuario)
 }
 
-func (u *UseCaseUsuario) Delete(usuario *entity.Usuario) error {
+func (u *UseCaseUsuario) Delete(usuario *Usuario) error {
 	return u.repo.DeleteUsuario(usuario)
 }
 
-func (u *UseCaseUsuario) GetUsuarioByEMail(email string) (usuario *entity.Usuario, err error) {
+func (u *UseCaseUsuario) GetUsuarioByEMail(email string) (usuario *Usuario, err error) {
 	return u.repo.GetByEMail(email)
 }
 
-func (u *UseCaseUsuario) GetUsuarioByID(id int) (usuario *entity.Usuario, err error) {
+func (u *UseCaseUsuario) GetUsuarioByID(id int) (usuario *Usuario, err error) {
 	return u.repo.GetByID(id)
 }
 
@@ -113,15 +112,15 @@ func (u *UseCaseUsuario) GetPatrimoniosByUsuarioEmail(email string) (patrimonios
 	return u.repo.GetPatrimoniosByEmail(email)
 }
 
-func (u *UseCaseUsuario) CreateOrUpdateUsuario(usuario *entity.Usuario) error {
+func (u *UseCaseUsuario) CreateOrUpdateUsuario(usuario *Usuario) error {
 	return u.repo.CreateOrUpdate(usuario)
 }
 
-func (u *UseCaseUsuario) UpdateUsuarioByEmail(usuario *entity.TipoUsuarioKafka) error {
+func (u *UseCaseUsuario) UpdateUsuarioByEmail(usuario *TipoUsuarioKafka) error {
 	return u.repo.UpdateByEmail(usuario)
 }
 
-func JWTTokenGenerator(u entity.Usuario) (signedToken string, signedRefreshToken string, err error) {
+func JWTTokenGenerator(u Usuario) (signedToken string, signedRefreshToken string, err error) {
 	claims := DetalhesLogin{
 		ID:    int(u.ID),
 		Name:  u.PrimeiroNome + " " + u.UltimoNome,

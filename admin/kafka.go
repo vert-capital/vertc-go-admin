@@ -5,23 +5,18 @@ import (
 	"log"
 
 	"github.com/segmentio/kafka-go"
-	entity "github.com/vert-capital/vertc-go-admin/entity"
-	repository "github.com/vert-capital/vertc-go-admin/infrasctructure/database/repository"
-	kafka_handlers "github.com/vert-capital/vertc-go-admin/infrasctructure/kafka/handlers"
-	usecase_grupo "github.com/vert-capital/vertc-go-admin/usecases/grupo"
-	usecase_usuario "github.com/vert-capital/vertc-go-admin/usecases/usuario"
 	"gorm.io/gorm"
 )
 
 func StartKafka(db *gorm.DB) {
 
 	// repositorios
-	repositoryUsuario := repository.NewUsuarioPostgres(db)
-	repositoryGrupo := repository.NewGrupoPostgres(db)
+	repositoryUsuario := NewUsuarioPostgres(db)
+	repositoryGrupo := NewGrupoPostgres(db)
 
 	// usecases
-	usecaseUsuario := usecase_usuario.NewService(repositoryUsuario)
-	usecaseGrupo := usecase_grupo.NewUseCaseGrupo(repositoryGrupo)
+	usecaseUsuario := NewService(repositoryUsuario)
+	usecaseGrupo := NewUseCaseGrupo(repositoryGrupo)
 
 	var topicParams []KafkaReadTopicsParams
 
@@ -33,7 +28,7 @@ func StartKafka(db *gorm.DB) {
 				log.Println("TOPIC: " + m.Topic)
 				log.Println("Message received: ", string(m.Value))
 
-				err := kafka_handlers.CreateUsuario(m, usecaseUsuario)
+				err := CreateUsuario(m, usecaseUsuario)
 				if err != nil {
 					log.Printf("Erro ao criar usuário: %v", err)
 				}
@@ -46,30 +41,30 @@ func StartKafka(db *gorm.DB) {
 				log.Println("TOPIC: " + m.Topic)
 				log.Println("Message received: ", string(m.Value))
 
-				var entityGrupo entity.GrupoJson
+				var rupo GrupoJson
 
-				err := json.Unmarshal(m.Value, &entityGrupo)
+				err := json.Unmarshal(m.Value, &rupo)
 				if err != nil {
 					log.Println("Erro ao deserializar o grupo: ", err)
 					return nil
 				}
 
-				if entityGrupo.Created && !entityGrupo.Deleted {
-					err := kafka_handlers.CreateGrupo(m, usecaseGrupo, usecaseUsuario)
+				if rupo.Created && !rupo.Deleted {
+					err := CreateGrupo(m, usecaseGrupo, usecaseUsuario)
 					if err != nil {
 						log.Printf("Erro ao criar grupo: %v", err)
 					}
 				}
 
-				if !entityGrupo.Created && !entityGrupo.Deleted {
-					err := kafka_handlers.UpdateGrupo(m, usecaseGrupo, usecaseUsuario)
+				if !rupo.Created && !rupo.Deleted {
+					err := UpdateGrupo(m, usecaseGrupo, usecaseUsuario)
 					if err != nil {
 						log.Printf("Erro ao atualizar grupo: %v", err)
 					}
 				}
 
-				if entityGrupo.Deleted {
-					err := kafka_handlers.DeleteGrupo(m, usecaseGrupo, usecaseUsuario)
+				if rupo.Deleted {
+					err := DeleteGrupo(m, usecaseGrupo, usecaseUsuario)
 					if err != nil {
 						log.Printf("Erro ao deletar grupo: %v", err)
 					}

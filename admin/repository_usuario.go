@@ -1,8 +1,6 @@
 package vertc_go_admin
 
 import (
-	entity "github.com/vert-capital/vertc-go-admin/entity"
-
 	"gorm.io/gorm"
 )
 
@@ -14,7 +12,7 @@ func NewUsuarioPostgres(DB *gorm.DB) *RepositoryUsuario {
 	return &RepositoryUsuario{DB: DB}
 }
 
-func (u *RepositoryUsuario) GetByID(id int) (usuario *entity.Usuario, err error) {
+func (u *RepositoryUsuario) GetByID(id int) (usuario *Usuario, err error) {
 	err = u.DB.First(&usuario, id).Error
 
 	if err != nil {
@@ -24,7 +22,7 @@ func (u *RepositoryUsuario) GetByID(id int) (usuario *entity.Usuario, err error)
 	return usuario, err
 }
 
-func (u *RepositoryUsuario) GetByEMail(email string) (usuario *entity.Usuario, err error) {
+func (u *RepositoryUsuario) GetByEMail(email string) (usuario *Usuario, err error) {
 
 	err = u.DB.Where("email = ?", email).First(&usuario).Error
 
@@ -35,30 +33,30 @@ func (u *RepositoryUsuario) GetByEMail(email string) (usuario *entity.Usuario, e
 	grupos, err := u.GetUsuarioGrupos(int(usuario.ID))
 
 	if err != nil {
-		grupos = make([]entity.Grupo, 0)
+		grupos = make([]Grupo, 0)
 	}
 	usuario.Grupos = grupos
 
 	return usuario, nil
 }
 
-func (u *RepositoryUsuario) CreateUsuario(usuario *entity.Usuario) error {
+func (u *RepositoryUsuario) CreateUsuario(usuario *Usuario) error {
 	return u.DB.Create(&usuario).Error
 }
 
-func (u *RepositoryUsuario) Existe(usuario *entity.Usuario) (bool, error) {
+func (u *RepositoryUsuario) Existe(usuario *Usuario) (bool, error) {
 	var count int64
-	u.DB.Model(&entity.Usuario{}).Where("email = ?", usuario.Email).Count(&count)
+	u.DB.Model(&Usuario{}).Where("email = ?", usuario.Email).Count(&count)
 	return count > 0, nil
 }
 
-func (u *RepositoryUsuario) CreateOrUpdate(usuario *entity.Usuario) error {
+func (u *RepositoryUsuario) CreateOrUpdate(usuario *Usuario) error {
 
 	rsp, err := u.Existe(usuario)
 
 	if rsp && err == nil {
 		usuario.ID = 0
-		return u.DB.Model(&entity.Usuario{}).Where("email = ?", usuario.Email).Updates(usuario).Error
+		return u.DB.Model(&Usuario{}).Where("email = ?", usuario.Email).Updates(usuario).Error
 	}
 
 	usuario.ID = 0
@@ -66,7 +64,7 @@ func (u *RepositoryUsuario) CreateOrUpdate(usuario *entity.Usuario) error {
 	return u.DB.Save(usuario).Error
 }
 
-func (u *RepositoryUsuario) UpdateUsuario(usuario *entity.Usuario) error {
+func (u *RepositoryUsuario) UpdateUsuario(usuario *Usuario) error {
 
 	_, err := u.GetByEMail(usuario.Email)
 
@@ -77,7 +75,7 @@ func (u *RepositoryUsuario) UpdateUsuario(usuario *entity.Usuario) error {
 	return u.DB.Save(&usuario).Error
 }
 
-func (u *RepositoryUsuario) DeleteUsuario(usuario *entity.Usuario) error {
+func (u *RepositoryUsuario) DeleteUsuario(usuario *Usuario) error {
 
 	_, err := u.GetByEMail(usuario.Email)
 
@@ -88,9 +86,9 @@ func (u *RepositoryUsuario) DeleteUsuario(usuario *entity.Usuario) error {
 	return u.DB.Delete(&usuario).Error
 }
 
-func (u *RepositoryUsuario) GetUsuarios(filtros entity.UsuarioFiltros) (usuarios []entity.Usuario, err error) {
+func (u *RepositoryUsuario) GetUsuarios(filtros UsuarioFiltros) (usuarios []Usuario, err error) {
 
-	usuarios = make([]entity.Usuario, 0)
+	usuarios = make([]Usuario, 0)
 
 	query := u.DB
 
@@ -103,9 +101,9 @@ func (u *RepositoryUsuario) GetUsuarios(filtros entity.UsuarioFiltros) (usuarios
 	return usuarios, err
 }
 
-func (u *RepositoryUsuario) GetUsuario(id int) (usuario *entity.Usuario, err error) {
+func (u *RepositoryUsuario) GetUsuario(id int) (usuario *Usuario, err error) {
 
-	usuario = &entity.Usuario{}
+	usuario = &Usuario{}
 
 	err = u.DB.First(&usuario, id).Error
 
@@ -117,11 +115,11 @@ func (u *RepositoryUsuario) GetUsuario(id int) (usuario *entity.Usuario, err err
 	return usuario, err
 }
 
-func (u *RepositoryUsuario) GetUsuarioGrupos(id int) ([]entity.Grupo, error) {
+func (u *RepositoryUsuario) GetUsuarioGrupos(id int) ([]Grupo, error) {
 
-	var grupos []entity.Grupo
+	var grupos []Grupo
 
-	err := u.DB.Model(&entity.Usuario{ID: id}).Association("Grupos").Find(&grupos)
+	err := u.DB.Model(&Usuario{ID: id}).Association("Grupos").Find(&grupos)
 	if err != nil {
 		return nil, err
 	}
@@ -138,7 +136,7 @@ func (u *RepositoryUsuario) GetPatrimoniosByEmail(email string) (patrimonios []u
 	return patrimonios, err
 }
 
-func (u *RepositoryUsuario) UpdateByEmail(usuario *entity.TipoUsuarioKafka) error {
-	return u.DB.Model(&entity.Usuario{}).Where("email = ?", usuario.Email).
+func (u *RepositoryUsuario) UpdateByEmail(usuario *TipoUsuarioKafka) error {
+	return u.DB.Model(&Usuario{}).Where("email = ?", usuario.Email).
 		Updates(map[string]interface{}{"tipo": usuario.Tipo, "pode_mudar_tipo": usuario.PodeMudarTipo}).Error
 }

@@ -6,13 +6,11 @@ import (
 	"log"
 
 	"github.com/segmentio/kafka-go"
-	entity "github.com/vert-capital/vertc-go-admin/entity"
-	usecase_usuario "github.com/vert-capital/vertc-go-admin/usecases/usuario"
 )
 
-func CreateUsuario(m kafka.Message, usecaseUsuario usecase_usuario.IUsecaseUsuario) error {
+func CreateUsuario(m kafka.Message, usecaseUsuario IUsecaseUsuario) error {
 
-	var usuario entity.Usuario
+	var usuario Usuario
 
 	err := json.Unmarshal(m.Value, &usuario)
 
@@ -30,8 +28,8 @@ func CreateUsuario(m kafka.Message, usecaseUsuario usecase_usuario.IUsecaseUsuar
 	return usecaseUsuario.CreateOrUpdateUsuario(&usuario)
 }
 
-func UpdateTipoUsuario(m kafka.Message, usecaseUsuario usecase_usuario.IUsecaseUsuario) error {
-	var tipoUsuario entity.TipoUsuarioKafka
+func UpdateTipoUsuario(m kafka.Message, usecaseUsuario IUsecaseUsuario) error {
+	var tipoUsuario TipoUsuarioKafka
 
 	err := json.Unmarshal(m.Value, &tipoUsuario)
 

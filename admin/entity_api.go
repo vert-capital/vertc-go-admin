@@ -1,15 +1,13 @@
 package vertc_go_admin
 
-import entity "github.com/vert-capital/vertc-go-admin/entity"
-
 type ResponseListTables map[string]interface{}
 
 type ResponseList struct {
-	Page       int             `json:"page"`
-	PageSize   int             `json:"page_size"`
-	Total      int             `json:"total"`
-	TotalPages int             `json:"total_pages"`
-	Data       []entity.Fields `json:"data"`
+	Page       int      `json:"page"`
+	PageSize   int      `json:"page_size"`
+	Total      int      `json:"total"`
+	TotalPages int      `json:"total_pages"`
+	Data       []Fields `json:"data"`
 }
 
 type ResponseCreateUpdateDelete struct {

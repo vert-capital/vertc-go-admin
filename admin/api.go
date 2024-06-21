@@ -5,10 +5,6 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	handlers "github.com/vert-capital/vertc-go-admin/api/handlers"
-	middleware "github.com/vert-capital/vertc-go-admin/api/middleware"
-	repository "github.com/vert-capital/vertc-go-admin/infrasctructure/database/repository"
-	usecase_usuario "github.com/vert-capital/vertc-go-admin/usecases/usuario"
 	"gorm.io/gorm"
 )
 
@@ -23,14 +19,14 @@ func setupRouter(db *gorm.DB) *gin.Engine {
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
 
-	ucUsuario := usecase_usuario.NewService(
-		repository.NewUsuarioPostgres(db),
+	ucUsuario := NewService(
+		NewUsuarioPostgres(db),
 	)
 
 	group := r.Group("/api/admin/v1")
-	group.Use(middleware.AuthMiddleware(ucUsuario))
+	group.Use(AuthMiddleware(ucUsuario))
 
-	handlers.MountTableHandlers(group, db)
+	MountTableHandlers(group, db)
 	return r
 }
 
