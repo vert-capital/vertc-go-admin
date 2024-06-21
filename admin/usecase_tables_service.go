@@ -29,3 +29,15 @@ func (uc *UseCaseTable) Update(table Table, fields Fields, id int) (response Res
 func (uc *UseCaseTable) Delete(table Table, ids []int) (response ResponseCreateUpdateDelete, err error) {
 	return uc.repo.Delete(table, ids)
 }
+
+func (uc *UseCaseTable) ListTables() (response []Table, err error) {
+	return uc.repo.ListTables()
+}
+
+func (uc *UseCaseTable) GetTableByName(name string) (table Table, err error) {
+	return uc.repo.GetTableByName(name)
+}
+
+func (uc *UseCaseTable) CreateTableIfNotExists(table Table) (err error) {
+	return uc.repo.CreateTableIfNotExists(table)
+}

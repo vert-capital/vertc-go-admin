@@ -7,12 +7,6 @@ import (
 	"gorm.io/gorm"
 )
 
-var Tables map[string]Table
-
-func AddTable(table Table) {
-	Tables[table.Name] = table
-}
-
 type AdminHandlers struct {
 	UcTable IUseCaseTable
 }
@@ -25,7 +19,13 @@ func NewAdminHandler(ucTable IUseCaseTable) *AdminHandlers {
 
 func (ah *AdminHandlers) ListTables(c *gin.Context) {
 	data := ResponseListTables{}
-	for _, table := range Tables {
+	tables, err := ah.UcTable.ListTables()
+	if err != nil {
+		handleError(c, err)
+		return
+
+	}
+	for _, table := range tables {
 		data[table.Category] = table
 	}
 	jsonResponse(c, 200, data)
@@ -34,7 +34,11 @@ func (ah *AdminHandlers) ListTables(c *gin.Context) {
 
 func (ah *AdminHandlers) GetInfoTable(c *gin.Context) {
 	tableName := c.Param("table_name")
-	table := Tables[tableName]
+	table, err := ah.UcTable.GetTableByName(tableName)
+	if err != nil {
+		handleError(c, err)
+		return
+	}
 	if table.Name == "" {
 		handleError(c, nil)
 		return
@@ -44,7 +48,11 @@ func (ah *AdminHandlers) GetInfoTable(c *gin.Context) {
 
 func (ah *AdminHandlers) ListTable(c *gin.Context) {
 	tableName := c.Param("table_name")
-	table := Tables[tableName]
+	table, err := ah.UcTable.GetTableByName(tableName)
+	if err != nil {
+		handleError(c, err)
+		return
+	}
 	if table.Name == "" {
 		handleError(c, nil)
 		return
@@ -104,7 +112,11 @@ func (ah *AdminHandlers) ListTable(c *gin.Context) {
 
 func (ah *AdminHandlers) GetTable(c *gin.Context) {
 	tableName := c.Param("table_name")
-	table := Tables[tableName]
+	table, err := ah.UcTable.GetTableByName(tableName)
+	if err != nil {
+		handleError(c, err)
+		return
+	}
 	if table.Name == "" {
 		handleError(c, nil)
 		return
@@ -127,13 +139,17 @@ func (ah *AdminHandlers) GetTable(c *gin.Context) {
 
 func (ah *AdminHandlers) CreateTable(c *gin.Context) {
 	tableName := c.Param("table_name")
-	table := Tables[tableName]
+	table, err := ah.UcTable.GetTableByName(tableName)
+	if err != nil {
+		handleError(c, err)
+		return
+	}
 	if table.Name == "" {
 		handleError(c, nil)
 		return
 	}
 	var data map[string]interface{}
-	err := c.ShouldBindJSON(data)
+	err = c.ShouldBindJSON(data)
 	if err != nil {
 		handleError(c, err)
 		return
@@ -149,7 +165,11 @@ func (ah *AdminHandlers) CreateTable(c *gin.Context) {
 
 func (ah *AdminHandlers) UpdateTable(c *gin.Context) {
 	tableName := c.Param("table_name")
-	table := Tables[tableName]
+	table, err := ah.UcTable.GetTableByName(tableName)
+	if err != nil {
+		handleError(c, err)
+		return
+	}
 	if table.Name == "" {
 		handleError(c, nil)
 		return
@@ -181,13 +201,17 @@ func (ah *AdminHandlers) DeleteTable(c *gin.Context) {
 		Ids []int `json:"ids"`
 	}
 	tableName := c.Param("table_name")
-	table := Tables[tableName]
+	table, err := ah.UcTable.GetTableByName(tableName)
+	if err != nil {
+		handleError(c, err)
+		return
+	}
 	if table.Name == "" {
 		handleError(c, nil)
 		return
 	}
 	ids := &DeleteRequest{}
-	err := c.ShouldBindJSON(ids)
+	err = c.ShouldBindJSON(ids)
 	if err != nil {
 		handleError(c, err)
 		return

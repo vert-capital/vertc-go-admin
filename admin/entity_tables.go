@@ -7,7 +7,11 @@ type Actions map[string](func() error)
 type Table struct {
 	Name         string   `json:"name"`
 	Category     string   `json:"category"`
-	Fields       Fields   `json:"fields"`
+	Fields       *Fields  `json:"fields"`
 	SearchFields []string `json:"search_fields"`
-	Actions      Actions  `json:"actions"`
+	Actions      *Actions `json:"actions"`
+}
+
+func (Table) TableName() string {
+	return "vertadmin_tabelas"
 }

@@ -35,7 +35,7 @@ type UsuarioFiltros struct {
 }
 
 func (Usuario) TableName() string {
-	return "usuarios"
+	return "vertadmin_usuarios"
 }
 
 func (u *Usuario) RespostaJson() UsuarioJson {
@@ -70,5 +70,5 @@ type AreaUsuario struct {
 }
 
 func (AreaUsuario) TableName() string {
-	return "areas"
+	return "vertadmin_areas"
 }
