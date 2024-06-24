@@ -13,6 +13,7 @@ func NewRepositoryTable(db *gorm.DB) *RepositoryTable {
 }
 
 func (r RepositoryTable) List(table Table, filters Filters) (response ResponseList, err error) {
+	var results []map[string]interface{}
 	query := r.DB.Table(table.Name)
 	if filters.Search != nil {
 		for _, field := range table.SearchFields {
@@ -38,8 +39,9 @@ func (r RepositoryTable) List(table Table, filters Filters) (response ResponseLi
 		}
 		query.Order(orderby)
 	}
-	cpquery := query
-	err = query.Find(&response.Data).Error
+	err = query.Find(&results).Error
+	response.Data = results
+	results = make([]map[string]interface{}, 0)
 	if err != nil {
 		return ResponseList{
 			Page:       0,
@@ -56,8 +58,8 @@ func (r RepositoryTable) List(table Table, filters Filters) (response ResponseLi
 	if response.Total%filters.PageSize != 0 {
 		response.TotalPages++
 	}
-	cpquery.Offset((filters.Page - 1) * filters.PageSize).Limit(filters.PageSize)
-	err = cpquery.Find(&response.Data).Error
+	query.Offset((filters.Page - 1) * filters.PageSize).Limit(filters.PageSize)
+	err = query.Find(&results).Error
 	if err != nil {
 		return ResponseList{
 			Page:       0,
@@ -67,11 +69,11 @@ func (r RepositoryTable) List(table Table, filters Filters) (response ResponseLi
 			Data:       nil,
 		}, err
 	}
-
+	response.Data = results
 	return response, nil
 }
 
-func (r RepositoryTable) Get(table Table, id int) (response Fields, err error) {
+func (r RepositoryTable) Get(table Table, id int) (response []map[string]interface{}, err error) {
 	err = r.DB.Table(table.Name).Where("id = ?", id).First(&response).Error
 	if err != nil {
 		return nil, err

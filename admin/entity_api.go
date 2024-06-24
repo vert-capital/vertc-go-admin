@@ -3,11 +3,11 @@ package vertc_go_admin
 type ResponseListTables map[string]interface{}
 
 type ResponseList struct {
-	Page       int      `json:"page"`
-	PageSize   int      `json:"page_size"`
-	Total      int      `json:"total"`
-	TotalPages int      `json:"total_pages"`
-	Data       []Fields `json:"data"`
+	Page       int                      `json:"page"`
+	PageSize   int                      `json:"page_size"`
+	Total      int                      `json:"total"`
+	TotalPages int                      `json:"total_pages"`
+	Data       []map[string]interface{} `json:"data"`
 }
 
 type ResponseCreateUpdateDelete struct {

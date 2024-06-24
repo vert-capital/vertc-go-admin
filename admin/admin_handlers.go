@@ -20,6 +20,7 @@ func NewAdminHandler(ucTable IUseCaseTable) *AdminHandlers {
 func (ah *AdminHandlers) ListTables(c *gin.Context) {
 	data := ResponseListTables{}
 	for _, table := range Tabelas {
+		table.Fields = nil
 		data[table.Category] = table
 	}
 	jsonResponse(c, 200, data)
