@@ -2,7 +2,7 @@ package vertc_go_admin
 
 type Fields map[string]interface{}
 
-type Actions map[string](func() error)
+type Actions map[string](func(ids []string) error)
 
 type Tables map[string]Table
 

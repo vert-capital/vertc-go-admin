@@ -33,7 +33,7 @@ Ser uma biblioteca que aplicações da VERT usando GORM poderão criar automatic
     ?order_by=xx OR -xx -> Ordenação <br>
     ?page = 1 -> Paginação <br>
     ?page_size=10 -> tamanho da pagina<br>
-    ?action=xx -> Chamando ACTION <br>
+    ?actions=xx -> Chamando ACTION <br>
     <br>
     Método: GET <br>
     Exemplo response: <br>

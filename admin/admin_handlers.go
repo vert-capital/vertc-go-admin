@@ -2,6 +2,7 @@ package vertc_go_admin
 
 import (
 	"strconv"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -92,7 +93,7 @@ func (ah *AdminHandlers) ListTable(c *gin.Context) {
 	}
 	fields := []FilterField{}
 	for key, value := range c.Request.URL.Query() {
-		if key != "search" && key != "page" && key != "page_size" {
+		if key != "search" && key != "page" && key != "page_size" && key != "actions" {
 			fields = append(fields, FilterField{
 				Field: key,
 				Value: value[0],
@@ -104,7 +105,12 @@ func (ah *AdminHandlers) ListTable(c *gin.Context) {
 	}
 	actions, exists := c.GetQuery("actions")
 	if exists {
-		response, err := runAction(table, actions)
+		var ids []string
+		idsstring, exists := c.GetQuery("ids")
+		if exists {
+			ids = strings.Split(idsstring, ",")
+		}
+		response, err := runAction(table, actions, ids)
 		if err != nil {
 			handleError(c, err)
 			return

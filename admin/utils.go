@@ -18,7 +18,7 @@ func jsonResponse(c *gin.Context, httpStatus int, data any) {
 	c.JSON(httpStatus, data)
 }
 
-func runAction(table Table, action string) (response ResponseCreateUpdateDelete, err error) {
+func runAction(table Table, action string, ids []string) (response ResponseCreateUpdateDelete, err error) {
 	actions := *table.Actions
 	action_func := actions[action]
 	if action_func == nil {
@@ -26,7 +26,7 @@ func runAction(table Table, action string) (response ResponseCreateUpdateDelete,
 			Message: "Action not found",
 		}, nil
 	}
-	err = action_func()
+	err = action_func(ids)
 	if err != nil {
 		return ResponseCreateUpdateDelete{
 			Message: err.Error(),
