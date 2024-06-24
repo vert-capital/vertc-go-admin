@@ -21,7 +21,11 @@ func (ah *AdminHandlers) ListTables(c *gin.Context) {
 	data := ResponseListTables{}
 	for _, table := range tables {
 		table.Fields = nil
-		data[table.Category] = table
+		if data[table.Category] == nil {
+			data[table.Category] = []Table{table}
+			continue
+		}
+		data[table.Category] = append(data[table.Category].([]Table), table)
 	}
 	jsonResponse(c, 200, data)
 
