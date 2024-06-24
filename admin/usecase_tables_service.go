@@ -26,6 +26,6 @@ func (uc *UseCaseTable) Update(table Table, fields Fields, id int) (response Res
 	return uc.repo.Update(table, fields, id)
 }
 
-func (uc *UseCaseTable) Delete(table Table, ids []int) (response ResponseCreateUpdateDelete, err error) {
+func (uc *UseCaseTable) Delete(table Table, ids []string) (response ResponseCreateUpdateDelete, err error) {
 	return uc.repo.Delete(table, ids)
 }

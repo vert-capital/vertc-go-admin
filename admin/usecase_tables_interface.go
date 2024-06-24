@@ -5,7 +5,7 @@ type IRepositoryTable interface {
 	Get(table Table, id int) (response map[string]interface{}, err error)
 	Create(table Table, fields Fields) (response ResponseCreateUpdateDelete, err error)
 	Update(table Table, fields Fields, id int) (response ResponseCreateUpdateDelete, err error)
-	Delete(table Table, ids []int) (response ResponseCreateUpdateDelete, err error)
+	Delete(table Table, ids []string) (response ResponseCreateUpdateDelete, err error)
 }
 
 type IUseCaseTable interface {
@@ -13,5 +13,5 @@ type IUseCaseTable interface {
 	Get(table Table, id int) (response map[string]interface{}, err error)
 	Create(table Table, fields Fields) (response ResponseCreateUpdateDelete, err error)
 	Update(table Table, fields Fields, id int) (response ResponseCreateUpdateDelete, err error)
-	Delete(table Table, ids []int) (response ResponseCreateUpdateDelete, err error)
+	Delete(table Table, ids []string) (response ResponseCreateUpdateDelete, err error)
 }

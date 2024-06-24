@@ -206,7 +206,7 @@ func (ah *AdminHandlers) UpdateTable(c *gin.Context) {
 
 func (ah *AdminHandlers) DeleteTable(c *gin.Context) {
 	type DeleteRequest struct {
-		Ids []int `json:"ids"`
+		Ids []string `json:"ids"`
 	}
 	tableName := c.Param("table_name")
 	table := tables[tableName]
