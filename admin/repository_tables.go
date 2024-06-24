@@ -96,7 +96,7 @@ func (r RepositoryTable) Create(table Table, fields Fields) (response ResponseCr
 }
 
 func (r RepositoryTable) Update(table Table, fields Fields, id string) (response ResponseCreateUpdateDelete, err error) {
-	err = r.DB.Table(table.Name).Where("id::text = ?", id).Updates(fields).Error
+	err = r.DB.Debug().Table(table.Name).Where("id::text = ?", id).Updates(fields).Error
 	if err != nil {
 		return ResponseCreateUpdateDelete{
 			Message: "Error updating record",
