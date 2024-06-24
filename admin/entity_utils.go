@@ -47,6 +47,6 @@ func SetAdmin(obj_table interface{}, table_name string, category *string, search
 		new_table.Category = "ADMIN"
 	}
 	new_table.SearchFields = search_fields
-	new_table.Actions = (*Actions)(actions)
+	new_table.Actions = (*Actions)(&actions)
 	addTabela(new_table)
 }
