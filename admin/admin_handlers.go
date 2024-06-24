@@ -44,7 +44,10 @@ func (ah *AdminHandlers) ListTable(c *gin.Context) {
 		handleError(c, nil)
 		return
 	}
-	filters := Filters{}
+	filters := Filters{
+		Page:     1,
+		PageSize: 10,
+	}
 	search, exists := c.GetQuery("search")
 	if exists {
 		filters.Search = &search

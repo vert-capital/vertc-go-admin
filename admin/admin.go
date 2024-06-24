@@ -8,7 +8,7 @@ import (
 
 var Tabelas Tables
 
-func GetFields(structModel struct{}) *Fields {
+func GetFields(structModel interface{}) *Fields {
 	campos := make(Fields)
 	example := structModel
 	v := reflect.ValueOf(example)
