@@ -74,7 +74,7 @@ func (r RepositoryTable) List(table Table, filters Filters) (response ResponseLi
 }
 
 func (r RepositoryTable) Get(table Table, id int) (response []map[string]interface{}, err error) {
-	err = r.DB.Table(table.Name).Where("id = ?", id).First(&response).Error
+	err = r.DB.Table(table.Name).Where("id = ?", id).Order("id desc").First(&response).Error
 	if err != nil {
 		return nil, err
 	}
