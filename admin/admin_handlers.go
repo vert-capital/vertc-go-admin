@@ -137,13 +137,7 @@ func (ah *AdminHandlers) GetTable(c *gin.Context) {
 		handleError(c, nil)
 		return
 	}
-	idstr := c.Param("id")
-	id, err := strconv.Atoi(idstr)
-	if err != nil {
-		handleError(c, err)
-		return
-
-	}
+	id := c.Param("id")
 
 	response, err := ah.UcTable.Get(table, id)
 	if err != nil {
@@ -182,15 +176,10 @@ func (ah *AdminHandlers) UpdateTable(c *gin.Context) {
 		handleError(c, nil)
 		return
 	}
-	idstr := c.Param("id")
-	id, err := strconv.Atoi(idstr)
-	if err != nil {
-		handleError(c, err)
-		return
-	}
+	id := c.Param("id")
 
 	var data map[string]interface{}
-	err = c.ShouldBindJSON(&data)
+	err := c.ShouldBindJSON(&data)
 	if err != nil {
 		handleError(c, err)
 		return

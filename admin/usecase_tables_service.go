@@ -14,7 +14,7 @@ func (uc *UseCaseTable) List(table Table, filters Filters) (response ResponseLis
 	return uc.repo.List(table, filters)
 }
 
-func (uc *UseCaseTable) Get(table Table, id int) (response map[string]interface{}, err error) {
+func (uc *UseCaseTable) Get(table Table, id string) (response map[string]interface{}, err error) {
 	return uc.repo.Get(table, id)
 }
 
@@ -22,7 +22,7 @@ func (uc *UseCaseTable) Create(table Table, fields Fields) (response ResponseCre
 	return uc.repo.Create(table, fields)
 }
 
-func (uc *UseCaseTable) Update(table Table, fields Fields, id int) (response ResponseCreateUpdateDelete, err error) {
+func (uc *UseCaseTable) Update(table Table, fields Fields, id string) (response ResponseCreateUpdateDelete, err error) {
 	return uc.repo.Update(table, fields, id)
 }
 

@@ -73,9 +73,9 @@ func (r RepositoryTable) List(table Table, filters Filters) (response ResponseLi
 	return response, nil
 }
 
-func (r RepositoryTable) Get(table Table, id int) (response map[string]interface{}, err error) {
+func (r RepositoryTable) Get(table Table, id string) (response map[string]interface{}, err error) {
 	results := make([]map[string]interface{}, 0)
-	err = r.DB.Table(table.Name).Where("to_char(id, text) = '?'", id).Order("id desc").Find(&results).Error
+	err = r.DB.Table(table.Name).Where("id::text = ?", id).Order("id desc").Find(&results).Error
 	if err != nil {
 		return nil, err
 	}
@@ -95,8 +95,8 @@ func (r RepositoryTable) Create(table Table, fields Fields) (response ResponseCr
 	}, nil
 }
 
-func (r RepositoryTable) Update(table Table, fields Fields, id int) (response ResponseCreateUpdateDelete, err error) {
-	err = r.DB.Table(table.Name).Where("to_char(id, text) = '?'", id).Updates(fields).Error
+func (r RepositoryTable) Update(table Table, fields Fields, id string) (response ResponseCreateUpdateDelete, err error) {
+	err = r.DB.Table(table.Name).Where("id::text = ?", id).Updates(fields).Error
 	if err != nil {
 		return ResponseCreateUpdateDelete{
 			Message: "Error updating record",
