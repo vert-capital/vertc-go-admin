@@ -189,7 +189,7 @@ func (ah *AdminHandlers) UpdateTable(c *gin.Context) {
 		return
 	}
 
-	var data map[string]interface{}
+	var data map[string]any
 	err = c.ShouldBindJSON(data)
 	if err != nil {
 		handleError(c, err)
