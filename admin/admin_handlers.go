@@ -91,9 +91,13 @@ func (ah *AdminHandlers) ListTable(c *gin.Context) {
 		}
 		filters.PageSize = int(pageSize)
 	}
+	orderBy, exists := c.GetQuery("order_by")
+	if exists {
+		filters.OrderBy = strings.Split(orderBy, ",")
+	}
 	fields := []FilterField{}
 	for key, value := range c.Request.URL.Query() {
-		if key != "search" && key != "page" && key != "page_size" && key != "actions" {
+		if key != "search" && key != "page" && key != "page_size" && key != "actions" && key != "order_by" {
 			fields = append(fields, FilterField{
 				Field: key,
 				Value: value[0],
