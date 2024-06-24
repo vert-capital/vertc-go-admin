@@ -178,13 +178,12 @@ func (ah *AdminHandlers) UpdateTable(c *gin.Context) {
 	}
 	id := c.Param("id")
 
-	var data map[string]interface{}
+	var data Fields
 	err := c.ShouldBindJSON(&data)
 	if err != nil {
 		handleError(c, err)
 		return
 	}
-
 	response, err := ah.UcTable.Update(table, data, id)
 	if err != nil {
 		handleError(c, err)
