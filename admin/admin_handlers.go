@@ -187,7 +187,7 @@ func (ah *AdminHandlers) UpdateTable(c *gin.Context) {
 	}
 	response, err := ah.UcTable.Update(table, data, id)
 	if err != nil {
-		handleError(c, err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error(), "message": response.Message})
 		return
 	}
 	jsonResponse(c, 200, response)
