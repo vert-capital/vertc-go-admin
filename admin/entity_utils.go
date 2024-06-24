@@ -36,7 +36,7 @@ func addTabela(table Table) {
 	tables[table.Name] = table
 }
 
-func SetAdmin(obj_table interface{}, table_name string, category *string, search_fields []string) {
+func SetAdmin(obj_table interface{}, table_name string, category *string, search_fields []string, actions map[string](func() error)) {
 	new_table := Table{}
 	fields := getFields(obj_table)
 	new_table.Fields = fields
@@ -47,5 +47,6 @@ func SetAdmin(obj_table interface{}, table_name string, category *string, search
 		new_table.Category = "ADMIN"
 	}
 	new_table.SearchFields = search_fields
+	new_table.Actions = (*Actions)(&actions)
 	addTabela(new_table)
 }
