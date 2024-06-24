@@ -1,8 +1,6 @@
 package vertc_go_admin
 
 import (
-	"fmt"
-
 	"gorm.io/gorm"
 )
 
@@ -98,9 +96,8 @@ func (r RepositoryTable) Create(table Table, fields Fields) (response ResponseCr
 }
 
 func (r RepositoryTable) Update(table Table, fields Fields, id string) (response ResponseCreateUpdateDelete, err error) {
-	query := r.DB.Table(table.Name).Where("id::text = ?", id).Updates(fields)
+	query := r.DB.Table(table.Name).Where("id::text = ?", id).Updates(&fields)
 	err = query.Error
-	fmt.Println(fields)
 	if err != nil {
 		return ResponseCreateUpdateDelete{
 			Message: "Error updating record",
