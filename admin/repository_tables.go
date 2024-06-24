@@ -73,11 +73,13 @@ func (r RepositoryTable) List(table Table, filters Filters) (response ResponseLi
 	return response, nil
 }
 
-func (r RepositoryTable) Get(table Table, id int) (response []map[string]interface{}, err error) {
-	err = r.DB.Table(table.Name).Where("id = ?", id).Order("id desc").First(&response).Error
+func (r RepositoryTable) Get(table Table, id int) (response map[string]interface{}, err error) {
+	results := make([]map[string]interface{}, 0)
+	err = r.DB.Table(table.Name).Where("id = ?", id).Order("id desc").Find(&results).Error
 	if err != nil {
 		return nil, err
 	}
+	response = results[0]
 	return response, nil
 }
 
