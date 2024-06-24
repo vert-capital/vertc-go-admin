@@ -96,10 +96,11 @@ func (r RepositoryTable) Create(table Table, fields Fields) (response ResponseCr
 }
 
 func (r RepositoryTable) Update(table Table, fields Fields, id string) (response ResponseCreateUpdateDelete, err error) {
-	err = r.DB.Debug().Table(table.Name).Where("id::text = ?", id).Updates(fields).Error
+	query := r.DB.Debug().Table(table.Name).Where("id::text = ?", id).Updates(fields)
+	err = query.Error
 	if err != nil {
 		return ResponseCreateUpdateDelete{
-			Message: "Error updating record",
+			Message: "Error updating record, SQL: " + query.Statement.SQL.String(),
 		}, err
 	}
 	return ResponseCreateUpdateDelete{
