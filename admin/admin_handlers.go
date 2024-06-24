@@ -97,7 +97,7 @@ func (ah *AdminHandlers) ListTable(c *gin.Context) {
 	}
 	fields := []FilterField{}
 	for key, value := range c.Request.URL.Query() {
-		if key != "search" && key != "page" && key != "page_size" && key != "actions" && key != "order_by" {
+		if key != "search" && key != "page" && key != "page_size" && key != "actions" && key != "order_by" && key != "ids" {
 			fields = append(fields, FilterField{
 				Field: key,
 				Value: value[0],
