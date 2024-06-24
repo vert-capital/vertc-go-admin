@@ -1,6 +1,7 @@
 package vertc_go_admin
 
 import (
+	"net/http"
 	"strconv"
 	"strings"
 
@@ -181,7 +182,7 @@ func (ah *AdminHandlers) UpdateTable(c *gin.Context) {
 	var data Fields
 	err := c.ShouldBindJSON(&data)
 	if err != nil {
-		handleError(c, err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 	response, err := ah.UcTable.Update(table, data, id)
