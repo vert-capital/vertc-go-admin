@@ -19,7 +19,7 @@ func NewAdminHandler(ucTable IUseCaseTable) *AdminHandlers {
 
 func (ah *AdminHandlers) ListTables(c *gin.Context) {
 	data := ResponseListTables{}
-	for _, table := range Tabelas {
+	for _, table := range tables {
 		table.Fields = nil
 		data[table.Category] = table
 	}
@@ -29,7 +29,7 @@ func (ah *AdminHandlers) ListTables(c *gin.Context) {
 
 func (ah *AdminHandlers) GetInfoTable(c *gin.Context) {
 	tableName := c.Param("table_name")
-	table := Tabelas[tableName]
+	table := tables[tableName]
 	if table.Name == "" {
 		handleError(c, nil)
 		return
@@ -39,7 +39,7 @@ func (ah *AdminHandlers) GetInfoTable(c *gin.Context) {
 
 func (ah *AdminHandlers) ListTable(c *gin.Context) {
 	tableName := c.Param("table_name")
-	table := Tabelas[tableName]
+	table := tables[tableName]
 	if table.Name == "" {
 		handleError(c, nil)
 		return
@@ -102,7 +102,7 @@ func (ah *AdminHandlers) ListTable(c *gin.Context) {
 
 func (ah *AdminHandlers) GetTable(c *gin.Context) {
 	tableName := c.Param("table_name")
-	table := Tabelas[tableName]
+	table := tables[tableName]
 	if table.Name == "" {
 		handleError(c, nil)
 		return
@@ -125,7 +125,7 @@ func (ah *AdminHandlers) GetTable(c *gin.Context) {
 
 func (ah *AdminHandlers) CreateTable(c *gin.Context) {
 	tableName := c.Param("table_name")
-	table := Tabelas[tableName]
+	table := tables[tableName]
 	if table.Name == "" {
 		handleError(c, nil)
 		return
@@ -147,7 +147,7 @@ func (ah *AdminHandlers) CreateTable(c *gin.Context) {
 
 func (ah *AdminHandlers) UpdateTable(c *gin.Context) {
 	tableName := c.Param("table_name")
-	table := Tabelas[tableName]
+	table := tables[tableName]
 	if table.Name == "" {
 		handleError(c, nil)
 		return
@@ -179,7 +179,7 @@ func (ah *AdminHandlers) DeleteTable(c *gin.Context) {
 		Ids []int `json:"ids"`
 	}
 	tableName := c.Param("table_name")
-	table := Tabelas[tableName]
+	table := tables[tableName]
 	if table.Name == "" {
 		handleError(c, nil)
 		return
