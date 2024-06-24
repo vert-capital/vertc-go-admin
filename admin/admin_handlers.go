@@ -20,12 +20,20 @@ func NewAdminHandler(ucTable IUseCaseTable) *AdminHandlers {
 func (ah *AdminHandlers) ListTables(c *gin.Context) {
 	data := ResponseListTables{}
 	for _, table := range tables {
-		table.Fields = nil
-		if data[table.Category] == nil {
-			data[table.Category] = []Table{table}
+		tablejson := TableJSON{}
+		tablejson.Name = table.Name
+		tablejson.Category = table.Category
+		tablejson.SearchFields = table.SearchFields
+		tablejson.Fields = nil
+		for action, _ := range *table.Actions {
+			tablejson.Actions = append(tablejson.Actions, action)
+		}
+		if data[tablejson.Category] == nil {
+			data[tablejson.Category] = []TableJSON{tablejson}
 			continue
 		}
-		data[table.Category] = append(data[table.Category].([]Table), table)
+
+		data[tablejson.Category] = append(data[tablejson.Category].([]TableJSON), tablejson)
 	}
 	jsonResponse(c, 200, data)
 
@@ -38,7 +46,15 @@ func (ah *AdminHandlers) GetInfoTable(c *gin.Context) {
 		handleError(c, nil)
 		return
 	}
-	jsonResponse(c, 200, table)
+	tablejson := TableJSON{}
+	tablejson.Name = table.Name
+	tablejson.Category = table.Category
+	tablejson.SearchFields = table.SearchFields
+	tablejson.Fields = table.Fields
+	for action, _ := range *table.Actions {
+		tablejson.Actions = append(tablejson.Actions, action)
+	}
+	jsonResponse(c, 200, tablejson)
 }
 
 func (ah *AdminHandlers) ListTable(c *gin.Context) {
