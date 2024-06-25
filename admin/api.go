@@ -6,7 +6,7 @@ import (
 )
 
 func RoutersAdmin(r *gin.Engine, db *gorm.DB) *gin.Engine {
-	ucUsuario := NewService(
+	ucUsuario := NewUserService(
 		NewRepositoryUsers(db),
 	)
 

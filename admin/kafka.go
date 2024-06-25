@@ -13,7 +13,7 @@ func StartKafka(db *gorm.DB) {
 	repositoryUsuario := NewRepositoryUsers(db)
 
 	// usecases
-	usecaseUsuario := NewService(repositoryUsuario)
+	usecaseUsuario := NewUserService(repositoryUsuario)
 
 	var topicParams []KafkaReadTopicsParams
 

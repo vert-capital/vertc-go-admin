@@ -17,7 +17,7 @@ type LoginDetails struct {
 	jwt.StandardClaims
 }
 
-func NewService(repository IRepositoryUsers) *UseCaseUsers {
+func NewUserService(repository IRepositoryUsers) *UseCaseUsers {
 	return &UseCaseUsers{repository}
 }
 
