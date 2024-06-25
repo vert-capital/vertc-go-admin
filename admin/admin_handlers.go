@@ -44,11 +44,9 @@ func (ah *AdminHandlers) ListTables(c *gin.Context) {
 
 func (ah *AdminHandlers) GetInfoTable(c *gin.Context) {
 	tableName := c.Param("table_name")
-	table := tables[tableName]
-	fmt.Println(table)
-	if table.Name == "" {
-		handleError(c, nil)
-		return
+	table, exists := tables[tableName]
+	if !exists {
+		c.JSON(http.StatusNotFound, gin.H{"error": fmt.Sprintf("Table %s not found", tableName)})
 	}
 	tablejson := TableJSON{}
 	tablejson.Name = table.Name
