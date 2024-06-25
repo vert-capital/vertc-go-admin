@@ -110,7 +110,7 @@ func (r RepositoryTable) Update(table Table, fields Fields, id string) (response
 }
 
 func (r RepositoryTable) Delete(table Table, ids []string) (response ResponseCreateUpdateDelete, err error) {
-	err = r.DB.Table(table.Name).Where("id::text IN (?)", ids).Delete(nil).Error
+	err = r.DB.Table(table.Name).Where("id::text IN (?)", ids).Delete().Error
 	if err != nil {
 		return ResponseCreateUpdateDelete{
 			Message: "Error deleting record",
