@@ -204,10 +204,16 @@ func (ah *AdminHandlers) DeleteTable(c *gin.Context) {
 		return
 	}
 	ids := &DeleteRequest{}
-	err := c.ShouldBindJSON(ids)
-	if err != nil {
-		handleError(c, err)
-		return
+	id := c.Param("id")
+	if id != "" {
+		err := c.ShouldBindJSON(ids)
+		if err != nil {
+			handleError(c, err)
+			return
+		}
+	} else {
+		ids.Ids = []string{id}
+
 	}
 	response, err := ah.UcTable.Delete(table, ids.Ids)
 	if err != nil {
@@ -230,4 +236,5 @@ func MountTableHandlers(gin *gin.RouterGroup, db *gorm.DB) {
 
 	gin.GET("/tables/:table_name/crud/:id", ah.GetTable)
 	gin.PUT("/tables/:table_name/crud/:id", ah.UpdateTable)
+	gin.DELETE("/tables/:table_name/crud/:id", ah.DeleteTable)
 }
