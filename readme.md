@@ -167,7 +167,6 @@ Ser uma biblioteca que aplicações da VERT usando GORM poderão criar automatic
     Get da tabela selecionada <br>
     Método: GET/PUT <br>
     Exemplo response (GET): <br>
-   
     {
         "convention": "teste",
         "created_at": null,
@@ -177,9 +176,7 @@ Ser uma biblioteca que aplicações da VERT usando GORM poderão criar automatic
         "name": "%TESTE",
         "series_id": 4514,
         "updated_at": null
-    }
-    
-    <br>
+    }<br>
     Exemplo response (PUT): <br>
     {
         "message": "Record created successfully"
