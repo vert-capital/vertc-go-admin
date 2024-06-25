@@ -7,7 +7,7 @@ import (
 
 func RoutersAdmin(r *gin.Engine, db *gorm.DB) *gin.Engine {
 	ucUsuario := NewService(
-		NewService(db),
+		NewRepositoryUsers(db),
 	)
 
 	group := r.Group("/api/admin/v1")
