@@ -204,8 +204,8 @@ func (ah *AdminHandlers) DeleteTable(c *gin.Context) {
 		return
 	}
 	ids := &DeleteRequest{}
-	id := c.Param("id")
-	if id != "" {
+	id, exists := c.GetQuery("id")
+	if !exists {
 		err := c.ShouldBindJSON(ids)
 		if err != nil {
 			handleError(c, err)
@@ -236,5 +236,4 @@ func MountTableHandlers(gin *gin.RouterGroup, db *gorm.DB) {
 
 	gin.GET("/tables/:table_name/crud/:id", ah.GetTable)
 	gin.PUT("/tables/:table_name/crud/:id", ah.UpdateTable)
-	gin.DELETE("/tables/:table_name/crud/:id", ah.DeleteTable)
 }

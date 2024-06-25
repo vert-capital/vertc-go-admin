@@ -41,12 +41,11 @@ Ser uma biblioteca que aplicações da VERT usando GORM poderão criar automatic
 </code>
 <br>
 <code> 
-    URL: api/admin/v1/tables/<:table_name:>/crud/<:id:> <br>
+    URL: api/admin/v1/tables/<:table_name:>/crud/ <br>
     CRUD da tabela selecionada <br>
     Método: GET/POST/PUT/DELETE <br>
     Exemplo response (GET): <br>
     Exemplo response (POST/PUT): <br>
-    Exemplo response (DELETE): <br>
 
 </code>
 <br>
@@ -61,4 +60,12 @@ Ser uma biblioteca que aplicações da VERT usando GORM poderão criar automatic
     }
     <br>
     Exemplo response (DELETE): <br>
+</code>
+
+<code> 
+    URL: api/admin/v1/tables/<:table_name:>/crud/?id= <br>
+    CRUD da tabela selecionada <br>
+    Método: DELETE <br>
+    Exemplo response (DELETE): <br>
+    
 </code>
