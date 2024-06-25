@@ -1,8 +1,6 @@
 package vertc_go_admin
 
-import (
-	"gorm.io/gorm"
-)
+import "gorm.io/gorm"
 
 var tables Tables
 

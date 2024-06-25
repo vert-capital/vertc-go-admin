@@ -10,15 +10,15 @@ import (
 	"gopkg.in/cas.v2"
 )
 
-func AuthMiddleware(usecase IUsecaseUsuario) gin.HandlerFunc {
+func AuthMiddleware(usecase IUsecaseUsers) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// get bearer token from header
 		bearerToken := c.Request.Header.Get("Authorization")
 
-		usuario, err := usecase.GetUsuarioByToken(bearerToken)
+		usuario, err := usecase.GetUserByToken(bearerToken)
 
 		// check if token is valid
-		if err == nil && *usuario.IsAdmin {
+		if err == nil && *&usuario.IsSuperuser {
 
 			// set usuario to context
 			c.Set("usuario", *usuario)
