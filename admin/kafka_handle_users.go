@@ -13,7 +13,7 @@ func CreateUser(m kafka.Message, ucUser IUsecaseUsers) error {
 	if err != nil {
 		return err
 	}
-	log.Printf("Creating user: %v", user.Email)
+	log.Printf("Creating user: %s", user.Email)
 	return ucUser.CreateOrUpdateUser(&user)
 
 }

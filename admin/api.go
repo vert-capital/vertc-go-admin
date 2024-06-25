@@ -12,7 +12,7 @@ func RoutersAdmin(r *gin.Engine, db *gorm.DB) *gin.Engine {
 
 	group := r.Group("/api/admin/v1")
 	group.Use(AuthMiddleware(ucUsuario))
-
 	MountTableHandlers(group, db)
+	MountCASAuthRoutes(r, db)
 	return r
 }
