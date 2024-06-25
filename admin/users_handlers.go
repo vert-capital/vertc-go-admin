@@ -72,6 +72,6 @@ func MountCASAuthRoutes(r *gin.Engine, conn *gorm.DB) {
 	group := r.Group("/")
 	group.Use(SSOAuthMiddleware())
 
-	group.GET("api/admin/auth/cas", authHandlers.CASAuth)
-	group.GET("api/admin/auth/cas/logout", authHandlers.CASLogout)
+	group.GET("/api/admin/auth/cas", authHandlers.CASAuth)
+	group.GET("/api/admin/auth/cas/logout", authHandlers.CASLogout)
 }
