@@ -1,6 +1,7 @@
 package vertc_go_admin
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
@@ -44,6 +45,7 @@ func (ah *AdminHandlers) ListTables(c *gin.Context) {
 func (ah *AdminHandlers) GetInfoTable(c *gin.Context) {
 	tableName := c.Param("table_name")
 	table := tables[tableName]
+	fmt.Println(table)
 	if table.Name == "" {
 		handleError(c, nil)
 		return

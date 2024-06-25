@@ -18,9 +18,13 @@ func getFields(structModel interface{}) *Fields {
 		if fieldType == "ptr" {
 			fieldType = "datetime"
 		}
+		required := false
+		if typeOfTable.Field(i).Tag.Get("validate") == "required" {
+			required = true
+		}
 		fieldInfo := map[string]interface{}{
 			"type":       fieldType,
-			"required":   true,
+			"required":   required,
 			"json_field": typeOfTable.Field(i).Tag.Get("json"),
 		}
 

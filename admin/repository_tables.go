@@ -84,7 +84,7 @@ func (r RepositoryTable) Get(table Table, id string) (response map[string]interf
 }
 
 func (r RepositoryTable) Create(table Table, fields Fields) (response ResponseCreateUpdateDelete, err error) {
-	err = r.DB.Table(table.Name).Create(fields).Error
+	err = r.DB.Table(table.Name).Create(map[string]interface{}(fields))
 	if err != nil {
 		return ResponseCreateUpdateDelete{
 			Message: "Error creating record",
