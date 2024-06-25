@@ -1,6 +1,9 @@
 package vertc_go_admin
 
-import "reflect"
+import (
+	"reflect"
+	"strings"
+)
 
 func getFields(structModel interface{}) *Fields {
 	campos := make(Fields)
@@ -19,7 +22,7 @@ func getFields(structModel interface{}) *Fields {
 			fieldType = "datetime"
 		}
 		required := false
-		if typeOfTable.Field(i).Tag.Get("validate") == "required" {
+		if strings.Contains(typeOfTable.Field(i).Tag.Get("validate"), "required") {
 			required = true
 		}
 		fieldInfo := map[string]interface{}{
