@@ -5,14 +5,9 @@ import (
 	"gorm.io/gorm"
 )
 
-func RoutersAdmin(r *gin.Engine, db *gorm.DB) *gin.Engine {
-	ucUsuario := NewUserService(
-		NewRepositoryUsers(db),
-	)
-
+func RoutersAdmin(r *gin.Engine, db *gorm.DB, middleware gin.HandlerFunc) *gin.Engine {
 	group := r.Group("/api/admin/v1")
-	group.Use(AuthMiddleware(ucUsuario))
+	group.Use(middleware)
 	MountTableHandlers(group, db)
-	MountCASAuthRoutes(r, db)
 	return r
 }

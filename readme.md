@@ -28,7 +28,7 @@ import vertc_go_admin "github.com/vert-capital/vertc-go-admin/admin"
 
 func setupRouter(conn *gorm.DB) *gin.Engine {
 	r := gin.New()
-	vertc_go_admin.RoutersAdmin(r, conn)
+	vertc_go_admin.RoutersAdmin(r, conn, middleware)
 }
 ```
 

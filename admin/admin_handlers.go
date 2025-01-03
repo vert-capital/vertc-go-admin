@@ -21,6 +21,11 @@ func NewAdminHandler(ucTable IUseCaseTable) *AdminHandlers {
 }
 
 func (ah *AdminHandlers) ListTables(c *gin.Context) {
+	user := c.MustGet("user").(UserSSO)
+	if !user.IsSuperuser {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
+		return
+	}
 	data := ResponseListTables{}
 	for _, table := range tables {
 		tablejson := TableJSON{}
