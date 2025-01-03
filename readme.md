@@ -28,6 +28,7 @@ import vertc_go_admin "github.com/vert-capital/vertc-go-admin/admin"
 
 func setupRouter(conn *gorm.DB) *gin.Engine {
 	r := gin.New()
+    // Use o middleware para verificar se usuário tem permissão para acessar as api's.
 	vertc_go_admin.RoutersAdmin(r, conn, middleware)
 }
 ```
