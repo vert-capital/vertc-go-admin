@@ -32,6 +32,44 @@ func setupRouter(conn *gorm.DB) *gin.Engine {
 }
 ```
 
+Crie arquivos NO SEU PROJETO numa pasta admin/ para centralizar, seguindo o exemplo:
+
+admin.go
+```
+func CreateAdminTables() {
+	admin.EmissionAdmin()
+}
+```
+
+admin_emission.go
+```
+
+func ActionPrintAllID(ids []string) error {
+	db := postgres.Connect()
+	repo := repository.NewEmissionPostgres(db)
+	emissions, err := repo.GetEmissionList() 
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+	for _, emission := range emissions {
+		fmt.Println(emission.ID)
+	}
+	return nil
+}
+
+func EmissionAdmin() {
+	search_fields := []string{
+		"number",
+	}
+	actions := vertc_go_admin.Actions{}
+	actions["print_all_id"] = ActionPrintAllEmissionID
+	// vertc_go_admin.SetAdmin(ENTIDADE, "NOME DA TABELA", "CATEGORIA PARA O MENU", "CAMPOS DE BUSCA", "AÇÕES")
+	vertc_go_admin.SetAdmin(entity.EntityEmission{}, "entity_emissions", "core", search_fields, actions)
+
+}
+```
+
 
 ## Rotas
 ```
