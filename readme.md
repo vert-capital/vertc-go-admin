@@ -9,12 +9,36 @@ go get github.com/vert-capital/vertc-go-admin/admin
 ## Objetivo
 Ser uma biblioteca que aplicações da VERT usando GORM poderão criar automaticamente rotas para o ADMIN
 
+## Implementação
+main.go
+```
+import vertc_go_admin "github.com/vert-capital/vertc-go-admin/admin"
+
+func main() {
+	vertc_go_admin.RunServer(conn)
+}
+```
+
+
+api.go
+```
+
+import vertc_go_admin "github.com/vert-capital/vertc-go-admin/admin"
+
+func setupRouter(conn *gorm.DB) *gin.Engine {
+	r := gin.New()
+	vertc_go_admin.RoutersAdmin(r, conn)
+}
+```
+
+
 ## Rotas
-<code> 
-    URL: api/admin/v1/tables <br>
-    Listagem de tabelas <br>
-    Método: GET <br>
-    Exemplo response: <br>
+```
+
+    URL: api/admin/v1/tables
+    Listagem de tabelas
+    Método: GET
+    Exemplo response:
     {
         "Core": [
             {
@@ -59,14 +83,17 @@ Ser uma biblioteca que aplicações da VERT usando GORM poderão criar automatic
                 "actions": null
             }
         ]
-    }<br>
-</code>
+    }
+```
+
 <br>
-<code> 
-    URL: api/admin/v1/tables/<:table_name:> <br>
-    Estrutura de dados da tabela selecionada <br>
-    Método: GET <br>
-    Exemplo response: <br>
+
+```
+
+    URL: api/admin/v1/tables/<:table_name:>
+    Estrutura de dados da tabela selecionada 
+    Método: GET 
+    Exemplo response: 
     {
         "name": "entity_remunerations",
         "category": "Series",
@@ -121,23 +148,23 @@ Ser uma biblioteca que aplicações da VERT usando GORM poderão criar automatic
             "name"
         ],
         "actions": null
-    }<br>
-
-</code>
+    }
+```
 <br>
-<code> 
-    URL: api/admin/v1/tables/<:table_name:>/crud <br>
-    Listagem de dados da tabela selecionada<br>
-    <br>
-    ?NOME_DO_CAMPO=XXX -> Filtragem <br>
-    ?search=xx -> Procura por campos pré-selecionados <br>
-    ?order_by=xx OR -xx -> Ordenação <br>
-    ?page = 1 -> Paginação <br>
-    ?page_size=10 -> tamanho da pagina<br>
-    ?actions=xx -> Chamando ACTION <br>
-    <br>
-    Método: GET <br>
-    Exemplo response: <br>
+
+```
+    URL: api/admin/v1/tables/<:table_name:>/crud
+    Listagem de dados da tabela selecionada
+
+    ?NOME_DO_CAMPO=XXX -> Filtragem
+    ?search=xx -> Procura por campos pré-selecionados
+    ?order_by=xx OR -xx -> Ordenação
+    ?page = 1 -> Paginação
+    ?page_size=10 -> tamanho da pagina
+    ?actions=xx -> Chamando ACTION
+    
+    Método: GET
+    Exemplo response:
     {
         "page": 1,
         "page_size": 10,
@@ -155,18 +182,21 @@ Ser uma biblioteca que aplicações da VERT usando GORM poderão criar automatic
                 "updated_at": null
             }
         ]
-    }<br>
-    Exemplo response (quando chamada a action): <br>
+    }
+
+    Exemplo response (quando chamada a action): 
     {
 	"message": "Action executed"
-}
-</code>
+    }
+```
+
 <br>
-<code> 
-    URL: api/admin/v1/tables/<:table_name:>/crud/<:id:> <br>
-    Get da tabela selecionada <br>
-    Método: GET/PUT <br>
-    Exemplo response (GET): <br>
+
+```
+    URL: api/admin/v1/tables/<:table_name:>/crud/<:id:>
+    Get da tabela selecionada
+    Método: GET/PUT 
+    Exemplo response (GET):
     {
         "convention": "teste",
         "created_at": null,
@@ -176,42 +206,44 @@ Ser uma biblioteca que aplicações da VERT usando GORM poderão criar automatic
         "name": "%TESTE",
         "series_id": 4514,
         "updated_at": null
-    }<br>
-    Exemplo response (PUT): <br>
+    }
+    Exemplo response (PUT):
     {
         "message": "Record created successfully"
     }
-    <br>
 
-</code>
+```
+
 <br>
-<code> 
-    URL: api/admin/v1/tables/<:table_name:>/crud/ <br>
-    CRUD da tabela selecionada <br>
-    Método: DELETE/POST <br>
-    Exemplo response (POST): <br>
+
+```
+    URL: api/admin/v1/tables/<:table_name:>/crud/ 
+    CRUD da tabela selecionada
+    Método: DELETE/POST 
+    Exemplo response (POST): 
     {
         "message": "Record created successfully"
-    }<br><br>
-    Exemploy Payload (DELETE) <br>
+    }
+    Exemploy Payload (DELETE)
     {
         "ids": ["1","2","3","4"]
     }
-    <br>
-    Exemplo response (DELETE): <br>
+    
+    Exemplo response (DELETE): 
     {
         "message": "Record deleted successfully"
     }
-    <br>
-</code>
+```
 
-<code> 
-    URL: api/admin/v1/tables/<:table_name:>/crud/?id= <br>
-    CRUD da tabela selecionada <br>
-    Método: DELETE <br>
-    Exemplo response (DELETE): <br>
+<br>
+
+```
+    URL: api/admin/v1/tables/<:table_name:>/crud/?id= 
+    CRUD da tabela selecionada 
+    Método: DELETE 
+    Exemplo response (DELETE): 
     {
 	    "message": "Record deleted successfully"
-    }<br>
+    }
 
-</code>
+```
