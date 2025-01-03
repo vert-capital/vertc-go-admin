@@ -16,7 +16,7 @@ import vertc_go_admin "github.com/vert-capital/vertc-go-admin/admin"
 
 func main() {
 	# go kafka.StartKafka()
-	vertc_go_admin.RunServer(conn)
+	go vertc_go_admin.RunServer(conn)
 }
 ```
 
