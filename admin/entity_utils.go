@@ -20,6 +20,13 @@ func getFields(structModel interface{}) *Fields {
 		// Estrutura a ser armazenada no mapa
 		if fieldType == "ptr" {
 			fieldType = "datetime"
+		} else if fieldType == "struct" {
+			// access to struct fields
+			subCampos := getFields(v.Field(i).Interface())
+			for fieldName, fieldInfo := range *subCampos {
+				campos[fieldName] = fieldInfo
+			}
+			continue
 		}
 		required := false
 		if strings.Contains(typeOfTable.Field(i).Tag.Get("validate"), "required") {
